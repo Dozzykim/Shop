@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 import shop.dto.PersistentLogin;
-import shop.dto.Product;
 import shop.dto.User;
 
 public class UserRepository extends JDBConnection {
@@ -15,7 +14,35 @@ public class UserRepository extends JDBConnection {
 	 * @return
 	 */
 	public int insert(User user) {
+		int result = 0;
 		
+		String sql = " INSERT INTO user (id, password, name, gender, birth, mail, phone, address) "
+				   + " VALUES(?, ?, ?, ?, ?, ?, ?, ?) ";
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, user.getId());
+			psmt.setString(2, user.getPassword());
+			psmt.setString(3, user.getName());
+			psmt.setString(4, user.getGender());
+			psmt.setString(5, user.getBirth());
+			psmt.setString(6, user.getMail());
+			psmt.setString(7, user.getPhone());
+			psmt.setString(8, user.getAddress());
+			
+			result = psmt.executeUpdate();
+			
+			if (result > 0) {
+				System.out.println("가입성공");
+			}else {
+				System.out.println("가입실패");
+			}
+			
+		} catch (SQLException e) {
+			System.err.println("회원가입 시, 예외 발생");
+		}
+		
+		return result;
 	}
 	
 	
@@ -27,9 +54,32 @@ public class UserRepository extends JDBConnection {
 	 */
 	public User login(String id, String pw) {
 		
+		String sql = " SELECT * "
+				   + " FROM user "
+				   + " WHERE id = ? and password = ? ";
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, id);
+			psmt.setString(2, pw);
+			
+			rs = psmt.executeQuery();
+			
+			if (rs.next()) {
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setPassword(rs.getString("password"));
+				
+				System.out.println("아이디: " + user.getId());
+				
+				return user;
+			}
+		} catch (SQLException e) {
+			System.err.println("로그인 시도 시, 예외 발생");
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
-	
 	
 	
 	/**
@@ -39,7 +89,9 @@ public class UserRepository extends JDBConnection {
 	 * @return
 	 */
 	public User getUserById(String id) {
+		User user = new User();
 		
+		return user;
 	}
 	
 	
@@ -49,7 +101,9 @@ public class UserRepository extends JDBConnection {
 	 * @return
 	 */
 	public int update(User user) {
+		int result = 0;
 		
+		return result;
 	}
 
 
@@ -59,7 +113,9 @@ public class UserRepository extends JDBConnection {
 	 * @return
 	 */
 	public int delete(String id) {
+		int result = 0;
 		
+		return result;
 	}
 	
 	/**
@@ -100,7 +156,7 @@ public class UserRepository extends JDBConnection {
 	        	persistentLogin.setpNo( rs.getInt("p_no")); 
 	        	persistentLogin.setUserId( rs.getString("user_id") ); 
 	        	persistentLogin.setToken( rs.getString("token") ); 
-	        	persistentLogin.setDate( rs.getTimestamp("token") ); 
+	        	persistentLogin.setDate( rs.getTimestamp("date") ); 
 	        }
 	        rs.close();
 	    } catch (SQLException e) {

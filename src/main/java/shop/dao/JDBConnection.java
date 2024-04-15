@@ -26,20 +26,20 @@ public class JDBConnection {
 		// JDBC 드라이버 로드
 		// MySQL
 		try {
-			ClassLoader classLoader = JDBConnection.class.getClassLoader();
-	        String projectRootPath = classLoader.getResource("").getPath();
-			Reader reader = new FileReader(projectRootPath + "/db.properties");
-			Properties properties = new Properties();
-			properties.load(reader);
-			
-			String driver = properties.getProperty("driver");
-			String url = properties.getProperty("url");
-			String id = properties.getProperty("id");
-			String pw = properties.getProperty("pw");
+			//ClassLoader classLoader = JDBConnection.class.getClassLoader();
+	        //String projectRootPath = classLoader.getResource("").getPath();
+			//Reader reader = new FileReader(projectRootPath + "/db.properties");
+			//Properties properties = new Properties();
+			//properties.load(reader);
 			
 			// mysql-connector-j.xxx.jar 드라이버의 클래스를 로드한다.
-//			Class.forName("com.mysql.cj.jdbc.Driver");		 
-			Class.forName(driver);		 
+			Class.forName("com.mysql.cj.jdbc.Driver");		 
+//			Class.forName(Driver);		 
+			
+			String url = "jdbc:mysql://127.0.0.1:3306/joeun?serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false";
+			String id = "joeun";
+			String pw = "123456";
+			
 			
 			// DB에 연결
 			// - 연결에 필요한 정보 : URL, id, pw

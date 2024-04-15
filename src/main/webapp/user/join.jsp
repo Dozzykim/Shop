@@ -135,15 +135,44 @@
 				<a href="javascript: history.back()" class="btn btn-lg btn-secondary">취소</a>
 				<input type="submit" class="btn btn-lg btn-primary" value="가입" />
 			</div>	
-			
-			
 		</form>
-	
 	</div>
-	
 	
 	<jsp:include page="/layout/footer.jsp" />
 	<jsp:include page="/layout/script.jsp" />
+	
+	<script type="text/javascript">
+		function validateForm() {
+			/* 아이디: 영문자 또는 한글로 시작 */
+			var id = document.getElementById('id').value;
+			var idCheck = /^[A-Za-z가-힣]+$;
+			if (!idCheck.test(id)) {
+				alert("아이디는 영문자 또는 한글로 시작해야합니다.");
+				return false;
+			}
+			/* 비밀번호: 영문자, 숫자, 특수문자만 사용하되, 특수문자는 반드시 1개 포함하고 전체글자 6글자 이상*/
+			var password = document.getElementById("pw").value;
+			var passwordCheck = /^(?=.*[!@#$%^&*()-_+=])[A-Za-z0-9!@#$%^&*()-_+=]{6,}$;
+			if (!passwordCheck.test(password)) {
+				alert("비밀번호는 영문자,숫자,특수문자로 이루어져야하며, 특수문자가 1개가 반드시 포함되어야 합니다.");
+				return false;
+			}
+			/* 비밀번호 확인 : 일치해야함*/
+			var confirmPassword = document.getElementById("pw_confirm").value;
+			if (password !== confirmPassword) {
+	            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	            return false;
+	        }
+			/* 이름 : 한글만 입력 */
+			var name = document.getElementById("name").value;
+			var nameCheck = /^[가-힣]+$/;
+			if (!nameCheck.test(name)) {
+				alert("이름은 한글로만 입력되어야합니다.");
+				return false;
+			}
+			return true;
+		}
+	</script>
 </body>
 </html>
 
