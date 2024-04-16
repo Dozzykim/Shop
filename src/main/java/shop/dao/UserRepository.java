@@ -32,14 +32,9 @@ public class UserRepository extends JDBConnection {
 			
 			result = psmt.executeUpdate();
 			
-			if (result > 0) {
-				System.out.println("가입성공");
-			}else {
-				System.out.println("가입실패");
-			}
-			
 		} catch (SQLException e) {
 			System.err.println("회원가입 시, 예외 발생");
+			e.printStackTrace();
 		}
 		
 		return result;
@@ -83,15 +78,43 @@ public class UserRepository extends JDBConnection {
 	
 	
 	/**
-	 * 로그인을 위한 사용자 조회
+	 * 마이페이지 회원정보 조회 불러오기 (by Id)
 	 * @param id
 	 * @param pw
 	 * @return
 	 */
 	public User getUserById(String id) {
-		User user = new User();
+		String sql = " SELECT * "
+				   + " FROM user "
+				   + " WHERE id = ? ";
 		
-		return user;
+		try {
+			
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, id); // 첫번째 물음표에 매개변수 id 넣기
+			
+			rs = psmt.executeQuery();
+			
+			User user = new User();
+			
+			if (rs.next()) {
+				user.setId(rs.getString("id"));
+				user.setName(rs.getString("name"));
+				user.setGender(rs.getString("gender"));
+				user.setBirth(rs.getString("birth"));
+				user.setMail(rs.getString("mail"));
+				user.setPhone(rs.getString("phone"));
+				user.setAddress(rs.getString("address"));
+				
+				return user;
+			}
+			
+		} catch (SQLException e) {
+			System.err.println("회원정보 조회 시, 예외발생");
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	
@@ -102,6 +125,34 @@ public class UserRepository extends JDBConnection {
 	 */
 	public int update(User user) {
 		int result = 0;
+		
+		String sql = " UPDATE user "
+				   + " SET name = ? "
+				   + "    ,gender = ? "
+				   + "    ,birth = ? "
+				   + "    ,mail = ? "
+				   + "    ,phone = ? "
+				   + "    ,address = ? "
+				   + " WHERE id = ? " ;
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			
+			psmt.setString(1, user.getName());
+			psmt.setString(2, user.getGender());
+			psmt.setString(3, user.getBirth());
+			psmt.setString(4, user.getMail());
+			psmt.setString(5, user.getPhone());
+			psmt.setString(6, user.getAddress());
+			psmt.setString(7, user.getId());
+			
+			result = psmt.executeUpdate(); // 성공 1, 실패 0
+			
+			
+		} catch (SQLException e) {
+			System.err.println("회원정보 업데이트 시, 예외 발생");
+			e.printStackTrace();
+		}
 		
 		return result;
 	}
@@ -114,6 +165,21 @@ public class UserRepository extends JDBConnection {
 	 */
 	public int delete(String id) {
 		int result = 0;
+		
+		String sql = " DELETE FROM user "
+				   + " WHERE id = ? " ; 
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			
+			psmt.setString(1, id);
+			
+			result = psmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.err.println("회원 탈퇴 시, 예외 발생");
+			e.printStackTrace();
+		}
 		
 		return result;
 	}

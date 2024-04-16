@@ -12,11 +12,8 @@
 	String pw = request.getParameter("pw");
 	String name = request.getParameter("name");
 	String gender = request.getParameter("gender");
-	String year = request.getParameter("year");
-	String month = request.getParameter("month");
-	String day = request.getParameter("day");
-	String birth = year.substring(2, 4) + month + day;
-	String email = request.getParameter("email1")+ "@" + request.getParameter("email2");
+	String birth = request.getParameter("year") + "/" + request.getParameter("month") + "/" + request.getParameter("day");
+	String email = request.getParameter("email1")+ "@" + request.getParameter("email2"); 
 	String phone = request.getParameter("phone");
 	String address = request.getParameter("address");
 	
@@ -30,19 +27,22 @@
 	user.setMail(email);
 	user.setPhone(phone);
 	user.setAddress(address);
+	
 
+	// 회원 정보 등록
 	UserRepository userDAO = new UserRepository();
 	int result = userDAO.insert(user);
 	
 	String root = request.getContextPath();
 	
 	if (result > 0) {
-		System.out.println("가입 성공: " + user.getId());
+		// 성공
 		response.sendRedirect(root + "/user/complete.jsp?msg=1");
 	} else {
-		System.out.println("가입 실패");
+		// 실패
 		response.sendRedirect(root + "/user/join.jsp?msg=0");
 	}
+	
 	
 %>
     

@@ -54,6 +54,10 @@
 	cookieRememberMe.setPath("/");
 	cookieToken.setPath("/");
 	
+	// 쿠키 유효기간 설정
+		cookieRememberMe.setMaxAge(7*60*60*24);		// 초단위 --> 7일
+		cookieToken.setMaxAge(7*60*60*24);
+	
 	// 체크 여부에 따라 쿠키 생성 또는 삭제
 	if (rememberMe != null && rememberMe.equals("on")) {
 		// 자동 로그인 체크 => 토큰 발행
@@ -75,11 +79,13 @@
 	response.addCookie(cookieToken);
 	/* 자동 로그인 끝 */
 	
-	// 로그인 성공
-	// - 세션에 아이디 등록
-	System.out.println("세션아이디: " + loginUser.getId());
-	session.setAttribute("loginId", loginUser.getId());
-response.sendRedirect(root + "/user/complete.jsp?msg=0");
+	if( loginUser != null) {
+		// 로그인 성공
+		// 세션에 아이디 등록 후, 메인 페이지로 이동
+		System.out.println("세션아이디: " + loginUser.getId());
+		session.setAttribute("loginId", loginUser.getId() );
+		response.sendRedirect( root + "/user/complete.jsp?msg=0" );
+	}
 
 %>
 

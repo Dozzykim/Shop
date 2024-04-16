@@ -1,11 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>Shop</title>
 	<jsp:include page="/layout/meta.jsp" /> <jsp:include page="/layout/link.jsp" />
+	
+	<!-- jQuery CDN 방식으로 포함하기 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript">
+    
+		function validateForm() {
+			//아이디: 영문자 또는 한글로 시작
+			var id = document.getElementById('id').value;
+			var idCheck = /^[A-Za-z가-힣][A-Za-z가-힣0-9]*$/;
+			if (!idCheck.test(id)) {
+				alert("아이디는 영문자 또는 한글로 시작해야합니다.");
+				return false;
+			}
+			// 비밀번호: 영문자, 숫자, 특수문자만 사용하되, 특수문자는 반드시 1개 포함하고 전체글자 6글자 이상
+			var password = document.getElementById("pw").value;
+			var passwordCheck = /^(?=.*[A-Za-z0-9])(?=.*[!@#$%^&*()-_+=])[A-Za-z0-9!@#$%^&*()-_+=]{6,}$/;
+			if (!passwordCheck.test(password)) {
+				alert("비밀번호는 영문자,숫자,특수문자로 이루어져야하며, 특수문자가 1개가 반드시 포함되어야 합니다.");
+				return false;
+			}
+			// 비밀번호 확인 : 일치해야함
+			var confirmPassword = document.getElementById("pw_confirm").value;
+			if (password !== confirmPassword) {
+	            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	            return false;
+	        }
+			// 이름 : 한글만 입력
+			var name = document.getElementById("name").value;
+			var nameCheck = /^[가-힣]+$/;
+			if (!nameCheck.test(name)) {
+				alert("이름은 한글로만 입력되어야합니다.");
+				return false;
+			}
+			return true;
+		}
+	</script>
+    
 </head>
 <body>   
 	
@@ -16,30 +57,29 @@
 	
 	<!-- 회원 가입 영역 -->
 	<div class="container shop p-5 mb-5" >
-		<form action="join_pro.jsp" name="joinForm" method="post" >
+		<c:if test="${param.msg == 0}">
+        	<p style="color: red;">회원가입에 실패하였습니다.</p>
+        </c:if>
+		<form action="join_pro.jsp" name="joinForm" method="post" onsubmit="return validateForm()" >
 		
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-4" id="">아이디</label>
-				<input type="text" class="form-control col-md-8" 
-					   name="id" placeholder="아이디" required>
+				<input type="text" class="form-control col-md-8"  name="id" id="id" placeholder="아이디" required>
 			</div>
 			
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-4" id="">비밀번호</label>
-				<input type="password" class="form-control col-md-8" 
-					   name="pw" placeholder="비밀번호" required>
+				<input type="password" class="form-control col-md-8" name="pw" id="pw"placeholder="비밀번호" required>
 			</div>
 			
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-4" id="">비밀번호 확인</label>
-				<input type="password" class="form-control col-md-8" 
-					   name="pw_confirm" placeholder="비밀번호 확인" required>
+				<input type="password" class="form-control col-md-8" name="pw_confirm" id="pw_confirm" placeholder="비밀번호 확인" required>
 			</div>
 			
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-4" id="">이름</label>
-				<input type="text" class="form-control col-md-8" 
-					   name="name" placeholder="이름" required>
+				<input type="text" class="form-control col-md-8" name="name" id="name" placeholder="이름" required>
 			</div>
 			
 			<div class="input-group mb-3 row">
@@ -52,9 +92,8 @@
 							<input type="radio" class="form-check-input" name="gender" value="여" id="gender-female"> 
 							<label for="gender-female">여자</label>
 						</div>
-						
 						<div class="radio-item mx-3">
-							<input type="radio" class="form-check-input " name="gender" value="남" id="gender-male"> 
+							<input type="radio" class="form-check-input" name="gender" value="남" id="gender-male"> 
 							<label for="gender-male">남자</label>
 						</div>
 						
@@ -74,7 +113,7 @@
 						</div>
 						
 						<div class="col-4 col-md-4 pr-0">
-							<select name="month" class="h-100 form-select" >
+							<select name="month" class="h-100 form-select">
 								<option value="01">1월</option>
 								<option value="02">2월</option>
 								<option value="03">3월</option>
@@ -102,8 +141,7 @@
 				
 				<div class="row justify-content-between col-md-8 align-items-center p-0">
 					<div class="col-sm-5 col-md-5 px-0">
-						<input type="text" class="form-control" 
-							   name="email1" placeholder="이메일">
+						<input type="text" class="form-control" name="email1" placeholder="이메일">
 					</div>
 					<div class="d-none d-sm-block col-sm-auto col-auto px-0 text-center">
 						@
@@ -120,14 +158,12 @@
 			
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-4" id="">전화번호</label>
-				<input type="text" class="form-control col-md-8" 
-					   name="phone" placeholder="전화번호">
+				<input type="text" class="form-control col-md-8" name="phone" placeholder="전화번호">
 			</div>
 			
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-4" id="">주소</label>
-				<input type="text" class="form-control col-md-8" 
-					   name="address" placeholder="주소">
+				<input type="text" class="form-control col-md-8" name="address" placeholder="주소">
 			</div>
 			
 			
@@ -141,45 +177,5 @@
 	<jsp:include page="/layout/footer.jsp" />
 	<jsp:include page="/layout/script.jsp" />
 	
-	<script type="text/javascript">
-		function validateForm() {
-			/* 아이디: 영문자 또는 한글로 시작 */
-			var id = document.getElementById('id').value;
-			var idCheck = /^[A-Za-z가-힣]+$;
-			if (!idCheck.test(id)) {
-				alert("아이디는 영문자 또는 한글로 시작해야합니다.");
-				return false;
-			}
-			/* 비밀번호: 영문자, 숫자, 특수문자만 사용하되, 특수문자는 반드시 1개 포함하고 전체글자 6글자 이상*/
-			var password = document.getElementById("pw").value;
-			var passwordCheck = /^(?=.*[!@#$%^&*()-_+=])[A-Za-z0-9!@#$%^&*()-_+=]{6,}$;
-			if (!passwordCheck.test(password)) {
-				alert("비밀번호는 영문자,숫자,특수문자로 이루어져야하며, 특수문자가 1개가 반드시 포함되어야 합니다.");
-				return false;
-			}
-			/* 비밀번호 확인 : 일치해야함*/
-			var confirmPassword = document.getElementById("pw_confirm").value;
-			if (password !== confirmPassword) {
-	            alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-	            return false;
-	        }
-			/* 이름 : 한글만 입력 */
-			var name = document.getElementById("name").value;
-			var nameCheck = /^[가-힣]+$/;
-			if (!nameCheck.test(name)) {
-				alert("이름은 한글로만 입력되어야합니다.");
-				return false;
-			}
-			return true;
-		}
-	</script>
 </body>
 </html>
-
-
-
-
-
-
-
-

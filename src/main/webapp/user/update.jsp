@@ -14,18 +14,19 @@
 		String root = request.getContextPath();
 		String loginId = (String) session.getAttribute("loginId");
 		
+		// 로그인상태 아닐 시, 루트경로로 이동
 		if( loginId == null || loginId.equals("") ) {
 			response.sendRedirect(root);
 		}
 		
-		boolean login = false;
+		boolean login = false; // 로그인상태체크 변수
 		if( loginId != null && !loginId.isEmpty() ) {
 			// response.sendRedirect(root);
 			login = true;
 		}
 		
 		UserRepository userDAO = new UserRepository();
-		User loginUser = userDAO.getUserById(loginId);
+		User loginUser = userDAO.getUserById(loginId); //세션 아이디로 유저정보 조회
 		
 		// 이메일 : 아이디@도메인 분리
 		String mail = loginUser.getMail();
@@ -66,7 +67,7 @@
 		<div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
 			<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
 			    <ul class="nav nav-pills flex-column mb-auto">
-			      <!-- 로그인 시 -->
+			      <!-- 로그인 시 (좌측상단 메뉴)-->
 			      <% if( login ) { %>
 		    	  <li class="nav-item">
 			        <a href="<%= root %>/user/index.jsp" class="nav-link link-body-emphasis">
@@ -74,9 +75,7 @@
 			        </a>
 			      </li>
 			      <li class="nav-item">
-			        <a href="<%= root %>/user/update.jsp" class="nav-link active" aria-current="page">
-			          회원정보 수정
-			        </a>
+			        <a href="<%= root %>/user/update.jsp" class="nav-link active" aria-current="page">회원정보 수정</a>
 			      </li>
 			      <% } %>
 			      <li>
@@ -94,22 +93,18 @@
 				<h1 class="display-5 fw-bold text-body-emphasis">회원 정보 수정</h1>
 			</div>
 			
-			<!-- 회원 가입 영역 -->
+			<!-- 회원정보 수정 영역 -->
 			<div class="container shop m-auto mb-5">
 				<form action="update_pro.jsp" name="updateForm" method="post" >
 				
 					<div class="input-group mb-3 row">
-						<label class="input-group-text col-md-2" id="">아이디</label>
-						<input type="text" class="form-control col-md-10" 
-							   name="id" placeholder="아이디" required
-							   value="<%= loginUser.getId() %>">
+						<label class="input-group-text col-md-2" id="">아이디</label> <!-- 아이디는 수정 불가 (readonly 먹여놓음) -->
+						<input type="text" class="form-control col-md-10" name="id" readonly placeholder="아이디" required value="<%= loginUser.getId() %>">
 					</div>
 					
 					<div class="input-group mb-3 row">
 						<label class="input-group-text col-md-2" id="">이름</label>
-						<input type="text" class="form-control col-md-10" 
-							   name="name" placeholder="이름" required
-							   value="<%= loginUser.getName() %>">
+						<input type="text" class="form-control col-md-10" name="name" placeholder="이름" required value="<%= loginUser.getName() %>">
 					</div>
 					
 					<div class="input-group mb-3 row">
@@ -117,14 +112,12 @@
 							<label class="input-group-text" id="">성별</label>
 						</div>
 						<div class="col-md-10 d-flex align-items-center">
-							<input type="hidden" name="temp-gender" value="<%= loginUser.getGender() %>"
-								   id="temp-gender" />
+							<input type="hidden" name="temp-gender" value="<%= loginUser.getGender() %>" id="temp-gender" />
 							<div class="radio-box d-flex">
 								<div class="radio-item mx-5">
 									<input type="radio" class="form-check-input" name="gender" value="여" id="gender-female"> 
 									<label for="gender-female">여자</label>
 								</div>
-								
 								<div class="radio-item mx-5">
 									<input type="radio" class="form-check-input " name="gender" value="남" id="gender-male"> 
 									<label for="gender-male">남자</label>
@@ -204,9 +197,7 @@
 					
 					<div class="input-group mb-3 row">
 						<label class="input-group-text col-md-2" id="">주소</label>
-						<input type="text" class="form-control col-md-10" 
-							   name="address" placeholder="주소"
-							   value="<%= loginUser.getAddress() %>">
+						<input type="text" class="form-control col-md-10"  name="address" placeholder="주소" value="<%= loginUser.getAddress() %>">
 					</div>
 					
 					
@@ -214,8 +205,6 @@
 						<a href="javascript: ;" onclick="alertDel()" class="btn btn-lg btn-danger" >탈퇴</a>
 						<input type="submit" class="btn btn-lg btn-primary" value="수정" />
 					</div>	
-					
-					
 				</form>
 			
 			</div>

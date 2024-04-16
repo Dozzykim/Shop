@@ -15,7 +15,26 @@
 </head>
 <body>   
 	<% 
-
+		String root = request.getContextPath();
+	
+		String orderPhone = "";
+		int orderCount = 0;
+		List<e> orderList = new ArrayList();
+	
+		// 이미 로그인한 경우
+		String loginId = (String) session.getAttribute("loginId");
+		loginId = loginId != null ? loginId : "";
+		
+		// 로그인 체크를 위한 불리언 변수
+		boolean login = false;
+		
+		if (loginId.equals("")) {
+			// 비로그인 상태면 false
+			login = false;
+		} else {
+			// 로그인 상태면 true;
+			login = true;
+		}
 		// ...
 	
 	

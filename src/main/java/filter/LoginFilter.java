@@ -18,12 +18,7 @@ import javax.servlet.http.HttpSession;
 import shop.dao.UserRepository;
 import shop.dto.PersistentLogin;
 
-/**
- * Servlet Filter implementation class LoginFilter
- */
-@WebFilter("/LoginFilter")
 public class LoginFilter extends HttpFilter implements Filter {
-	
 	
 	Cookie[] cookies;
 	UserRepository userDAO;

@@ -33,8 +33,8 @@
 				String cookieValue = URLDecoder.decode(cookie.getValue(), "UTF-8");
 				
 				switch (cookieName) {
-					case "userId": userId = cookieValue; break;
-					case "remember-me": rememberId = cookieValue; break;
+					case "rememberId": rememberId = cookieValue; break; // 아이디 저장여부
+					case "userId": userId = cookieValue; break; // 저장된 아이디
 				}
 			}
 		}
@@ -50,7 +50,7 @@
 	  <form action="login_pro.jsp" method="post">
 	    <div class="form-floating">
 	      <input type="text" class="form-control" id="floatingInput" name="id" 
-	      		 value="<%= loginId %>" placeholder="아이디" autofocus>
+	      		 value="<%= userId %>" placeholder="아이디" autofocus>
 	      <label for="floatingInput">아이디</label>
 	    </div>
 	    <div class="form-floating">

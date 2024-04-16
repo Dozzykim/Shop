@@ -31,7 +31,18 @@
 		</c:if>
 		<c:if test="${ param.msg==1 }">
 			<!-- 회원가입 성공 -->
-			<h1>회원가입이 완료되었습니다!</h1>
+			<h1>회원 가입이 완료되었습니다.</h1>
+			<button onclick="moveToMain()">메인화면</button>
+		</c:if>
+		<c:if test="${ param.msg==2 }">
+			<!-- 회원정보 수정 성공 -->
+			<h1>회원 정보가 수정되었습니다.</h1>
+			<button onclick="moveToMain()">메인화면</button>
+		</c:if>
+		<c:if test="${ param.msg==3 }">
+			<!-- 회원탈퇴 성공 -->
+			<h1>회원 정보가 삭제되었습니다.</h1>
+			<button onclick="moveToMain()">메인화면</button>
 		</c:if>
 		
 			
@@ -39,6 +50,12 @@
 	
 	<jsp:include page="/layout/footer.jsp" />
 	<jsp:include page="/layout/script.jsp" />
+	
+	<script >
+	    function moveToMain() {
+	    	window.location.href="<%=root%>/index.jsp";
+		}
+    </script>
 </body>
 </html>
 
