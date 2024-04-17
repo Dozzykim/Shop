@@ -19,6 +19,8 @@
 	<%
 		ProductRepository productDAO = new ProductRepository();
 		List<Product> productList = productDAO.list();
+		
+		String root = request.getContextPath();
 	%>
 	<!-- 헤더 -->
 	<jsp:include page="/layout/header.jsp" />
@@ -40,7 +42,8 @@
 				<%
 					for(Product product : productList) {
 				%>
-					<div class="col-12 col-md-6 col-xl-4 col-xxl-3 pb-3">
+				<div class="col-12 col-md-6 col-xl-4 col-xxl-3 pb-3">
+					<form action="<%=root%>/shop/product.jsp" method="post">
 						<div class="card">
 							<div class="img-content">
 								<img class="p-3" alt="" src="..<%=product.getFile()%>">
@@ -51,13 +54,15 @@
 								<div class="me-3">
 									<p class="price text-end">₩ <%=product.getUnitPrice() %></p>
 								</div>
-								<div class="d-flex justify-content-around mb-4">
+								<div class="d-flex justify-content-around mb-2">
+									<input type="hidden" name="product_id" value="<%=product.getProductId()%>"/>
 									<button class="rounded border border-primary bg-light-subtle text-primary"><span class="material-symbols-outlined p-2">shopping_bag</span></button>
 									<button class="rounded border border-primary bg-light-subtle text-primary">상세 정보</button>
 								</div>
 							</div>
 						</div>
-					</div>
+					</form>	
+				</div>
 				<%
 					}
 				%>
