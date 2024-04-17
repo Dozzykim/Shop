@@ -1,3 +1,6 @@
+<%@page import="shop.dto.Product"%>
+<%@page import="java.util.List"%>
+<%@page import="shop.dao.ProductRepository"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
@@ -13,6 +16,10 @@
 	<jsp:include page="/layout/link.jsp" />
 </head>
 <body>
+	<%
+		ProductRepository productDAO = new ProductRepository();
+		List<Product> productList = productDAO.list();
+	%>
 	<!-- 헤더 -->
 	<jsp:include page="/layout/header.jsp" />
 	
@@ -28,27 +35,35 @@
 		</div>
 		
 		<!-- 카드뷰 -->
-		<div class="row">
-			<div class="col-6">
-				<div class="card">
-					<div class="img-content">
-						<img alt="" src="../static/img/JAVA.jpg">
+		<div class="product_Container">
+			<div class="row">
+				<%
+					for(Product product : productList) {
+				%>
+					<div class="col-12 col-md-6 col-xl-4 col-xxl-3 pb-3">
+						<div class="card">
+							<div class="img-content">
+								<img class="p-3" alt="" src="..<%=product.getFile()%>">
+							</div>
+							<div class="content">
+								<h3 class="text-center"><%=product.getName() %></h3>
+								<p class="text-center"><%=product.getDescription() %></p>
+								<div class="me-3">
+									<p class="price text-end">₩ <%=product.getUnitPrice() %></p>
+								</div>
+								<div class="d-flex justify-content-around mb-4">
+									<button class="rounded border border-primary bg-light-subtle text-primary"><span class="material-symbols-outlined p-2">shopping_bag</span></button>
+									<button class="rounded border border-primary bg-light-subtle text-primary">상세 정보</button>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="content">
-						<h3 class="text-center">자바 프로그래밍</h3>
-						<p></p>
-					</div>
+				<%
+					}
+				%>
 				</div>
-			</div>
-			<div class="col-6">
-				<div class="card">
-					123
-				</div>
-				
 			</div>
 		</div>
-	</div>
-	
 	<!-- 푸터 -->
 	<jsp:include page="/layout/footer.jsp" />
 </body>

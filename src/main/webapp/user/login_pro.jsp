@@ -17,7 +17,7 @@
 	
 	// 로그인 실패
 	if (loginUser == null) {
-		response.sendRedirect(root + "/user/login.jsp?error=" + 0);
+		response.sendRedirect(root + "/user/login.jsp?error=0");
 		return;
 	}
 	

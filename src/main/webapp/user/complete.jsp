@@ -55,6 +55,7 @@
 	    function moveToMain() {
 	    	window.location.href="<%=root%>/index.jsp";
 		}
+	    
     </script>
 </body>
 </html>

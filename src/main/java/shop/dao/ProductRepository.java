@@ -14,6 +14,36 @@ public class ProductRepository extends JDBConnection {
 	 */
 	public List<Product> list() {
 		
+		String sql = " SELECT * "
+				   + " FROM product ";
+		
+		// 상품을 담을 리스트
+		List<Product> productList = new ArrayList<Product>();
+		
+		try {
+			stmt = con.createStatement();
+			
+			rs = stmt.executeQuery(sql);
+			
+			while (rs.next()) {
+				Product product = new Product();
+				
+				product.setName(rs.getString("name"));
+				product.setDescription(rs.getString("description"));
+				product.setUnitPrice(rs.getInt("unit_price"));
+				product.setFile(rs.getString("file"));
+				
+				productList.add(product);
+			}
+			
+			return productList;
+			
+		} catch (SQLException e) {
+			System.err.println("상품 목록 조회 시, 예외 발생");
+			
+		}
+		
+		return null;
 	}
 	
 	
