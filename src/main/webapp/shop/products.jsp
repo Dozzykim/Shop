@@ -57,7 +57,7 @@
 								<div class="d-flex justify-content-around mb-2">
 									<input type="hidden" name="product_id" value="<%=product.getProductId()%>"/>
 									<button class="rounded border border-primary bg-light-subtle text-primary"><span class="material-symbols-outlined p-2">shopping_bag</span></button>
-									<button class="rounded border border-primary bg-light-subtle text-primary">상세 정보</button>
+									<a href="<%=root%>/shop/product.jsp?product_id=<%=product.getProductId()%>" class="btn btn-outline-primary">상세 정보</a>
 								</div>
 							</div>
 						</div>

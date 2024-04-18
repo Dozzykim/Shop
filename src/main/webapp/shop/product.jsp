@@ -5,10 +5,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>상품 정보</title>
-<jsp:include page="/layout/meta.jsp" />
-<jsp:include page="/layout/link.jsp" />
+	<meta charset="UTF-8">
+	<title>상품 정보</title>
+	<jsp:include page="/layout/meta.jsp" />
+	<jsp:include page="/layout/link.jsp" />
+	
+	<!-- jQuery CDN 방식으로 포함하기 -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 	<%
@@ -20,6 +23,10 @@
 	// 요청 제품 정보 받아오기
 	ProductRepository productDAO = new ProductRepository();
 	Product product = productDAO.getProductById(product_id);
+	
+	List<Product> 
+	
+	
 	%>
 
 	<!-- 헤더 -->
@@ -47,8 +54,11 @@
 					<p class="border-bottom">가격:<span class="ms-4"><%=product.getUnitPrice()%></span></p>
 					
 					<div class="mt-4">
-						<button class="btn btn-warning me-2" id="cart" onclick="addToCart()">장바구니</button>
-						<button class="btn btn-success ms-2" id="order" onclick="ordering()">주문하기</button>
+						<input type="hidden" name="product_id" value="<%=product.getProductId()%>"/>
+						<input type="hidden" name="product_name" value="<%=product.getName()%>"/>
+						<input type="hidden" name="product_price" value="<%=product.getUnitPrice()%>"/>
+						<a class="btn btn-warning me-2" id="cart" href="<%=root%>/shop/cart.jsp">장바구니</a>
+						<button type="button" class="btn btn-success ms-2" onclick="addToCart()">주문하기</button>
 					</div>
 					
 				</div>
@@ -65,15 +75,15 @@
 		function MoveToList() {
 			window.location.href="<%=root%>/shop/products.jsp";
 		}
+		
 		// 장바구니
 		function addToCart() {
-			alert('장바구니');
-			window.location.href="<%=root%>/shop/cart.jsp";
-		}
-		// 주문하기
-		function ordering() {
-			alert('주문하기');
-			/* 장바구니 처리 cart_pro로 요청보내기 */
+			var doubleCheck = confirm("상품을 장바구니에 추가하시겠습니까?");
+			if (doublecheck == true) {
+				alert("추가완료");
+				window.location.href="<%=root%>/shop/addCart.jsp";
+			}
+			alert('실패');
 		}
 		
 	</script>

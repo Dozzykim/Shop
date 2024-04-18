@@ -1,4 +1,7 @@
 <!-- 로그인 처리 -->
+<%@page import="shop.dto.Product"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.UUID"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="shop.dto.User"%>
@@ -84,6 +87,11 @@
 		// 세션에 아이디 등록 후, 메인 페이지로 이동
 		System.out.println("세션아이디: " + loginUser.getId());
 		session.setAttribute("loginId", loginUser.getId() );
+		
+		// 본인전용 장바구니 세션에 등록
+		List<Product> myCart = new ArrayList<Product>();
+		session.setAttribute("myCart", myCart);
+		
 		response.sendRedirect( root + "/user/complete.jsp?msg=0" );
 	}
 
