@@ -25,23 +25,20 @@
 		<div class="col-lg-6 mx-auto">
 			<p class="lead mb-4">Shop 쇼핑몰 입니다.</p>
 			<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-				<button>
-					<a href="<%=root%>/shop/product.jsp">상품목록</a>
-				</button>
+				<a href="<%=root%>/shop/products.jsp" class="btn btn-primary btn-lg px-4 gap-3">상품목록</a>
+				<!-- 로그인 시, 로그인 버튼 안보임 -->
+				<c:if test="${sessionScope.loginId != null }">
+					<a href="<%=root%>/user/logout.jsp" class="btn btn-outline-danger btn-lg px-4">로그아웃</a>
+				</c:if>
 				<!-- 로그인 시, 로그인 버튼 안보임 -->
 				<c:if test="${sessionScope.loginId == null }">
-					<button onclick="moveToLogin()">로그인</button>
+					<a href="<%=root%>/user/login.jsp" class="btn btn-outline-secondary btn-lg px-4">로그인</a>
 				</c:if>
 			</div>
 		</div>
 	</div>
 	<jsp:include page="/layout/footer.jsp" />
 	<jsp:include page="/layout/script.jsp" />
-	<script type="text/javascript">
-		function moveToLogin() {
-	    	window.location.href="<%=root%>/user/login.jsp";
-		}
-	</script>
 	
 </body>
 </html>

@@ -84,6 +84,7 @@ public class ProductRepository extends JDBConnection {
 				product.setCondition(rs.getString("condition"));
 				product.setUnitsInStock(rs.getInt("units_in_stock"));
 				product.setUnitPrice(rs.getInt("unit_price"));
+				product.setQuantity(rs.getInt("quantity"));
 				product.setFile(rs.getString("file"));
 				
 				System.out.println("상품아이디:" + product.getProductId());
@@ -116,6 +117,7 @@ public class ProductRepository extends JDBConnection {
 	 */
 	public int update(Product product) {
 		
+		
 	}
 	
 	
@@ -127,6 +129,29 @@ public class ProductRepository extends JDBConnection {
 	 */
 	public int delete(String productId) {
 		
+	}
+	
+	public int updateQty (String productId, int qty) {
+		int result = 0;
+		
+		String sql = " UPDATE FROM product "
+				   + " SET quantity = ? "
+				   + " WHERE product_id = ? " ;
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			
+			psmt.setInt(1, qty);
+			psmt.setString(2, productId);
+			
+			result = psmt.executeUpdate(); // 성공 1, 실패 0
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.err.println("장바구니 수량 정정 시, 예외 발생");
+		}
+		
+		return result;
 	}
 
 }

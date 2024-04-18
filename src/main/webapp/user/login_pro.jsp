@@ -89,8 +89,8 @@
 		session.setAttribute("loginId", loginUser.getId() );
 		
 		// 본인전용 장바구니 세션에 등록
-		List<Product> myCart = new ArrayList<Product>();
-		session.setAttribute("myCart", myCart);
+		List<Product> cartList = new ArrayList<Product>();
+		session.setAttribute("cartList", cartList);
 		
 		response.sendRedirect( root + "/user/complete.jsp?msg=0" );
 	}

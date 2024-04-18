@@ -27,7 +27,10 @@
 	<div class="container mb-5">
 		<c:if test="${ param.msg==0 }">
 			<!-- 로그인 성공 -->
-			<h1><%=loginId %>님 환영합니다.</h1>
+			<h1 class="text-center"><%=loginId %>님 환영 합니다.</h1>
+			<div class="btn-box d-flex justify-content-center p-5">
+				<a href="<%=root%>" class="btn btn-lg btn-primary">메인 화면</a>
+			</div>	
 		</c:if>
 		<c:if test="${ param.msg==1 }">
 			<!-- 회원가입 성공 -->

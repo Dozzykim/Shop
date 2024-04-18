@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="shop.dto.Product"%>
 <%@page import="shop.dao.ProductRepository"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -23,15 +25,20 @@
 	// 요청 제품 정보 받아오기
 	ProductRepository productDAO = new ProductRepository();
 	Product product = productDAO.getProductById(product_id);
+	List<Product> nullList = new ArrayList();
+	nullList.add(new Product());
 	
-	List<Product> 
+	List<Product> cartList = (List<Product>)session.getAttribute("cartList");
 	
-	
+	// 카트가 null인지 확인
+	if (cartList == null) {
+	    cartList = new ArrayList<>(); // 새로운 카트 생성
+	}
 	%>
 
 	<!-- 헤더 -->
 	<jsp:include page="/layout/header.jsp" />
-
+	<h1 class="text-center">장바구니: <%=cartList.size()%>개</h1>
 	<div class="container mx-auto">
 		<div class="top_Container">
 			<div class="d-flex flex-column mb-3 p-5">
@@ -41,7 +48,7 @@
 			</div>
 		</div>
 
-		<form>
+		<form name="addForm" action="<%=root%>/shop/addCart.jsp" method="post">
 			<div class="product_Container d-flex justify-content-center">
 				<img class="img_Content" alt="" src="..<%=product.getFile()%>">
 				<div class="d-flex flex-column ms-5">
@@ -59,17 +66,17 @@
 						<input type="hidden" name="product_price" value="<%=product.getUnitPrice()%>"/>
 						<a class="btn btn-warning me-2" id="cart" href="<%=root%>/shop/cart.jsp">장바구니</a>
 						<button type="button" class="btn btn-success ms-2" onclick="addToCart()">주문하기</button>
+						<a href="" class="btn btn-lg btn-success mx-3" onclick="addToCart()">주문하기</a>
 					</div>
-					
 				</div>
 			</div>
 		</form>
-		
 	</div>
 
 
 	<!-- 푸터 -->
 	<jsp:include page="/layout/footer.jsp" />
+	<jsp:include page="/layout/script.jsp" />
 
 	<script type="text/javascript">
 		function MoveToList() {
@@ -78,14 +85,12 @@
 		
 		// 장바구니
 		function addToCart() {
-			var doubleCheck = confirm("상품을 장바구니에 추가하시겠습니까?");
-			if (doublecheck == true) {
-				alert("추가완료");
-				window.location.href="<%=root%>/shop/addCart.jsp";
+			if( confirm("상품을 장바구니에 추가하시겠습니까?") ) {
+				document.addForm.submit()
+			} else {
+				document.addForm.reset()
 			}
-			alert('실패');
 		}
-		
 	</script>
 </body>
 </html>
