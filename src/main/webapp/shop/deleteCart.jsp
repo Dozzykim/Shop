@@ -8,6 +8,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
+	String root = request.getContextPath();
+
 	// 상품 개별삭제
 	String product = request.getParameter("id");
 	List<Product> cartList = (List<Product>)session.getAttribute("cartList");
@@ -22,6 +24,8 @@
 		List<Product> newCart = new ArrayList();
 		session.setAttribute("cartList", newCart);
 		
+		// 다시 장바구니 화면으로 리다이렉트
+		response.sendRedirect(root+"/shop/cart.jsp");
 		
 	} else {
 		/* 개별 삭제 요청 시 */
@@ -37,7 +41,6 @@
 		session.setAttribute("cartList", cartList);
 		
 		// 다시 장바구니 화면으로 리다이렉트
-		String root = request.getContextPath();
 		response.sendRedirect(root+"/shop/cart.jsp");
 	}
 %>
