@@ -9,41 +9,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	System.out.println("장바구니 들어옴");
 	// 장바구니에 추가 => 세션에 저장된 myCart(리스트) 불러와서 .add 한 후 다시 세션에 저장
 	String product_id = request.getParameter("product_id");
+	String product_name = request.getParameter("product_name");
+	int product_price = Integer.parseInt(request.getParameter("product_price"));
 	
 	System.out.println("주문할 상품: " + product_id );
 	
 	List<Product> cartList = (List<Product>)session.getAttribute("cartList");
 	
-	// 카트가 null인지 확인
-	if (cartList == null) {
-	    cartList = new ArrayList<>(); // 새로운 카트 생성
-	}
-	
-	ProductRepository productDAO = new ProductRepository();
-	
-	Product product = productDAO.getProductById(product_id);
 	
 	// 장바구니가 비었는지 체크
-	if (product.getQuantity() == 0) {
+	if (cartList.size() == 0) {
+		
+		Product newItem = new Product();
 		// 빈 장바구니면 그냥 추가
-		product.setQuantity(1);
-		cartList.add(product);
-	}
-	else {
-
+		newItem.setProductId(product_id);
+		newItem.setName(product_name);
+		newItem.setUnitPrice(product_price);
+		newItem.setQuantity(1);
+		
+		cartList.add(newItem);
+		
+	} else {
+		
 		boolean isExist = false;
 		
-		for (Product product : cartList) {
+		for (Product myItem : cartList) {
 	
-			// 이미 있는 상품이면 수량만 변경
-			if (product.getName().equals(product_name)) {
+			// 이미 있는 상품(myItem)이면 수량만 변경
+			if (myItem.getName().equals(product_name)) {
 				// 수량 1 추가
-				int addQty = product.getQuantity() + 1;
-				product.setQuantity(addQty);
+				int addQty = myItem.getQuantity() + 1;
+				myItem.setQuantity(addQty);
 				
 				isExist = true;
+				System.out.println("존재하는 상품. 수량 1증가");
 	
 				break;
 			}
@@ -55,10 +57,16 @@
 		
 		if (!isExist) {
 	
-			Product addNew = new Product();
-			addNew.setName(product_name);
-			addNew.setUnitPrice(product_price);
-			addNew.setQuantity(1);
+			Product newItem = new Product();
+			
+			newItem.setProductId(product_id);
+			newItem.setName(product_name);
+			newItem.setUnitPrice(product_price);
+			newItem.setQuantity(1);
+			
+			cartList.add(newItem);
+			
+			System.out.println("장바구니에 새롭게 추가");
 		}
 	}
 	

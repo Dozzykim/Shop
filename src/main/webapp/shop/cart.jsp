@@ -21,11 +21,17 @@
 	String root = request.getContextPath();
 	
 	// 세션에 저장한 장바구니 상품리스트 빼오기
-	List<Product> cartList = (List<Product>)request.getAttribute("cartList");
+	List<Product> cartList = (List<Product>)session.getAttribute("cartList");
 	
 	// 카트가 null인지 확인
 	if (cartList == null) {
 	    cartList = new ArrayList<>(); // 새로운 카트 생성
+	}
+	
+	int sum = 0;
+	
+	for(Product product : cartList) {
+		sum += product.getQuantity()*product.getUnitPrice();	
 	}
 	
 	%>
@@ -38,7 +44,7 @@
 			<p class="lead mb-4">장바구니 목록 입니다.</p>
 		</div>
 	</div>
-	<h1>장바구니: <%=cartList.size()%>개</h1>
+	<h1 class="text-center">장바구니: <%=cartList.size()%>개</h1>
 	<!-- 장바구니 영역 -->
 	<div class="container order">
 		<!-- 장바구니 목록 -->
@@ -83,7 +89,7 @@
 					<td></td>
 					<td></td>
 					<td>총액</td>
-					<td id="cart-sum">348136</td>
+					<td id="cart-sum"><%=sum %></td>
 					<td></td>
 				</tr>
 				
@@ -95,7 +101,7 @@
 	
 		<!-- 버튼 영역 -->
 		<div class="d-flex justify-content-between align-items-center p-3">
-			<a href="deleteCart.jsp?cartId=<%=root%>" class="btn btn-lg btn-danger ">전체삭제</a>
+			<a href="deleteCart.jsp?id=deleteAll" class="btn btn-lg btn-danger ">전체삭제</a>
 
 			<a href="javascript:;" class="btn btn-lg btn-primary" onclick="order()">주문하기</a>
 		</div>

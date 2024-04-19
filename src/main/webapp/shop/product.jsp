@@ -65,8 +65,7 @@
 						<input type="hidden" name="product_name" value="<%=product.getName()%>"/>
 						<input type="hidden" name="product_price" value="<%=product.getUnitPrice()%>"/>
 						<a class="btn btn-warning me-2" id="cart" href="<%=root%>/shop/cart.jsp">장바구니</a>
-						<button type="button" class="btn btn-success ms-2" onclick="addToCart()">주문하기</button>
-						<a href="" class="btn btn-lg btn-success mx-3" onclick="addToCart()">주문하기</a>
+						<button type="submit" class="btn btn-success ms-2" onclick="addToCart()">주문하기</button>
 					</div>
 				</div>
 			</div>
