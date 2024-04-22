@@ -16,67 +16,44 @@
 	ProductRepository productDAO = new ProductRepository();
 	Product product = productDAO.getProductById(product_id);
 	
+	System.out.println("주문할 상품: " + product_id);
 	
-	System.out.println("주문할 상품: " + product_id );
-	
-	List<Product> cartList = (List<Product>)session.getAttribute("cartList");
-	
+	List<Product> cartList = (List<Product>) session.getAttribute("cartList");
 	
 	// 카트가 null인지 확인
 	if (cartList == null) {
-	    cartList = new ArrayList<>(); // 새로운 카트 생성
+		cartList = new ArrayList<>(); // 새로운 카트 생성
 	}
 	
+	boolean isExist = false;
 	
-	// 장바구니가 비었는지 체크
-	if (cartList.isEmpty()) {
-		// 빈 장바구니면 그냥 추가
-		Product newItem = new Product();
-		product.setProductId(product_id);
-		product.setName(product.getName());
-		product.setQuantity(1);
-		product.setUnitPrice(product.getUnitPrice());
+	for (Product item : cartList) {
 	
-		cartList.add(product);
-	
-	}
-	else {
-
-		boolean isExist = false;
-		
-		for (Product item : cartList) {
-	
-			// 이미 있는 상품이면 수량만 변경
-			if (item.getName().equals(product.getName())) {
-				// 수량 1 추가
-				int addQty = item.getQuantity() + 1;
-				item.setQuantity(addQty);
-				
-				isExist = true;
-	
-				break;
-			}
-			else {
-				isExist = false;
-			}
+		// 이미 있는 상품이면 수량만 증가
+		if (item.getName().equals(product.getName())) {
 			
-		} //foreach 끝
-		
-		if (!isExist) {
+			item.setQuantity(item.getQuantity() + 1);
+			isExist = true;
 	
-			Product newItem = new Product();
-			newItem.setProductId(product_id);
-			newItem.setName(product.getName());
-			newItem.setUnitPrice(product.getUnitPrice());
-			newItem.setQuantity(1);
-			
-			cartList.add(newItem);
+			break;
 		}
+	} //foreach 끝
+	
+		// 존재하지않는 상품이면 새로 product 생성 후 추가
+	if (!isExist) {
+	
+		Product newItem = new Product();
+		newItem.setProductId(product_id);
+		newItem.setName(product.getName());
+		newItem.setUnitPrice(product.getUnitPrice());
+		newItem.setQuantity(1);
+	
+		cartList.add(newItem);
 	}
 	
 	session.setAttribute("cartList", cartList);
 	
 	String root = request.getContextPath();
 	
-	response.sendRedirect(root+"/shop/products.jsp");
+	response.sendRedirect(root + "/shop/products.jsp");
 %>
