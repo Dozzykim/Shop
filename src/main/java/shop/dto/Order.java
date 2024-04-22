@@ -5,17 +5,17 @@ package shop.dto;
  */
 public class Order {
 
-	private int orderNo;
+	private int orderNo;	//주문번호
 	private String cartId;
-	private String shipName;
-	private String zipCode;
-	private String country;
-	private String address;
-	private String date;
-	private String userId;
-	private int totalPrice;
-	private String phone;
-	private String orderPw;
+	private String shipName;//받는이
+	private String zipCode;	//우편번호
+	private String country;	//국가명
+	private String address;	//주소
+	private String date;	//배송일
+	private String userId;	//유저아이디(회원주문인 경우)
+	private int totalPrice;	//총금액
+	private String phone;	//폰번호
+	private String orderPw;	//주문비밀번호(비회원 주문인 경
 	
 	public Order() {
 		

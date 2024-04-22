@@ -64,7 +64,6 @@
 								<p class="price text-end">₩ <%=product.getUnitPrice() %></p>
 							</div>
 							<div class="d-flex justify-content-around mb-2">
-								<input type="hidden" name="product_id" value="<%=product.getProductId()%>"/>
 								<a href="<%=root%>/shop/cart_pro.jsp?product_id=<%=product.getProductId()%>" class="btn btn-outline-primary"><i class="material-symbols-outlined">shopping_bag</i></a>
 								<a href="<%=root%>/shop/product.jsp?product_id=<%=product.getProductId()%>" class="btn btn-outline-primary">상세 정보</a>
 							</div>

@@ -1,3 +1,4 @@
+<%@page import="shop.dao.ProductRepository"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="shop.dto.Product"%>
 <%@page import="java.util.List"%>
@@ -8,11 +9,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
+	// 상품목록 창에서 장바구니 버튼 클릭 시!!
 	// 장바구니에 추가 => 세션에 저장된 myCart(리스트) 불러와서 .add 한 후 다시 세션에 저장
 	String product_id = request.getParameter("product_id");
+	
+	ProductRepository productDAO = new ProductRepository();
+	Product product = productDAO.getProductById(product_id);
+	
+	
 	System.out.println("주문할 상품: " + product_id );
 	
 	List<Product> cartList = (List<Product>)session.getAttribute("cartList");
+	
 	
 	// 카트가 null인지 확인
 	if (cartList == null) {
@@ -23,10 +31,11 @@
 	// 장바구니가 비었는지 체크
 	if (cartList.isEmpty()) {
 		// 빈 장바구니면 그냥 추가
-		Product product = new Product();
-		product.setName(product_name);
+		Product newItem = new Product();
+		product.setProductId(product_id);
+		product.setName(product.getName());
 		product.setQuantity(1);
-		product.setUnitPrice(product_price);
+		product.setUnitPrice(product.getUnitPrice());
 	
 		cartList.add(product);
 	
@@ -35,13 +44,13 @@
 
 		boolean isExist = false;
 		
-		for (Product product : cartList) {
+		for (Product item : cartList) {
 	
 			// 이미 있는 상품이면 수량만 변경
-			if (product.getName().equals(product_name)) {
+			if (item.getName().equals(product.getName())) {
 				// 수량 1 추가
-				int addQty = product.getQuantity() + 1;
-				product.setQuantity(addQty);
+				int addQty = item.getQuantity() + 1;
+				item.setQuantity(addQty);
 				
 				isExist = true;
 	
@@ -55,10 +64,13 @@
 		
 		if (!isExist) {
 	
-			Product addNew = new Product();
-			addNew.setName(product_name);
-			addNew.setUnitPrice(product_price);
-			addNew.setQuantity(1);
+			Product newItem = new Product();
+			newItem.setProductId(product_id);
+			newItem.setName(product.getName());
+			newItem.setUnitPrice(product.getUnitPrice());
+			newItem.setQuantity(1);
+			
+			cartList.add(newItem);
 		}
 	}
 	
@@ -66,5 +78,5 @@
 	
 	String root = request.getContextPath();
 	
-	response.sendRedirect(root+"/shop/product.jsp?product_id="+ product_id);
+	response.sendRedirect(root+"/shop/products.jsp");
 %>

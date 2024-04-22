@@ -153,6 +153,43 @@ public class ProductRepository extends JDBConnection {
 		
 		return result;
 	}
+	
+	public Product getProductById1(String productId) {
+	      Product product = new Product();
+	      
+	      String sql = "SELECT * "
+	               + "FROM product "
+	               + "WHERE product_id = ? ";
+
+	      try {
+	         psmt = con.prepareStatement(sql);
+	         psmt.setString(1, productId);
+	         rs = psmt.executeQuery();
+	         
+	         if( rs.next() ) {
+	            
+	            product.setProductId(rs.getString("product_id"));
+	                product.setName(rs.getString("name"));
+	                product.setUnitPrice(rs.getInt("unit_price"));
+	                product.setDescription(rs.getString("description"));
+	                product.setManufacturer(rs.getString("manufacturer"));
+	                product.setCategory(rs.getString("category"));
+	                product.setUnitsInStock(rs.getLong("units_in_stock"));
+	                product.setCondition(rs.getString("condition"));
+	                product.setFile(rs.getString("file"));
+	                product.setQuantity(rs.getInt("quantity"));
+
+	         }
+	         
+	         return product;
+	         
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	         System.err.println("상품 목록 검색 중 에러가 발생하였습니다.");
+	      }
+	      return product;
+	   }
+
 
 }
 

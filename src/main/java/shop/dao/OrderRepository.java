@@ -15,7 +15,7 @@ public class OrderRepository extends JDBConnection {
 	 * @return
 	 */
 	public int insert(Order order) {
-		
+		String sql = " INSERT INTO order ('ship_name', 'zip_code', 'country', 'address', 'date', 'user_id', 'total_Price' )"
 	}
 
 	/**

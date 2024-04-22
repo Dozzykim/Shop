@@ -12,7 +12,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>장바구니</title>
 	<jsp:include page="/layout/meta.jsp" />
 	<jsp:include page="/layout/link.jsp" />
 </head>
@@ -23,16 +23,23 @@
 	// 세션에 저장한 장바구니 상품리스트 빼오기
 	List<Product> cartList = (List<Product>)session.getAttribute("cartList");
 	
+	
 	// 카트가 null인지 확인
 	if (cartList == null) {
 	    cartList = new ArrayList<>(); // 새로운 카트 생성
 	}
 	
-	int sum = 0;
+	int totalPrice = 0;
+	int totalQty = 0;
 	
 	for(Product product : cartList) {
-		sum += product.getQuantity()*product.getUnitPrice();	
+		totalPrice  += product.getQuantity()*product.getUnitPrice();
+		totalQty += product.getQuantity();
+		
 	}
+	
+	int cartSize = cartList.size();
+	
 	
 	%>
 	<!-- 헤더 -->
@@ -89,7 +96,7 @@
 					<td></td>
 					<td></td>
 					<td>총액</td>
-					<td id="cart-sum"><%=sum %></td>
+					<td id="cart-sum"><%=totalPrice %></td>
 					<td></td>
 				</tr>
 				
@@ -102,12 +109,29 @@
 		<!-- 버튼 영역 -->
 		<div class="d-flex justify-content-between align-items-center p-3">
 			<a href="deleteCart.jsp?id=deleteAll" class="btn btn-lg btn-danger ">전체삭제</a>
-
-			<a href="javascript:;" class="btn btn-lg btn-primary" onclick="order()">주문하기</a>
+			<a href="javascript:;" class="btn btn-lg btn-primary" onclick="submitOrder()">주문하기</a>
 		</div>
 	</div>
 	
 	<jsp:include page="/layout/footer.jsp" />
 	<jsp:include page="/layout/script.jsp" />
+	
+	<script type="text/javascript">
+		function submitOrder() {
+			if (<%=cartSize%> == 0) {
+				alert('장바구니에 담긴 상품이 없습니다.');
+			} else {
+				var totalPrice = <%=totalPrice%>;
+				var totalQty = <%=totalQty%>;
+				msg = '총 ' + totalQty + '개의 상품을 주문합니다.\n총 주문금액: ' + totalPrice;
+				
+				let doublecheck = confirm(msg);
+				
+				if (doublecheck) {
+					location.href = 'ship.jsp';
+				}
+			}
+		}
+	</script>
 </body>
 </html>
