@@ -71,7 +71,7 @@
 	
 	<!-- 배송 정보 입력 -->
 	<div class="container shop mb-5 p-4">
-		<form action="order.jsp" class="form-horizontal" method="post" onsubmit="return validateForm()">
+		<form action="ship_pro.jsp" class="form-horizontal" method="post" onsubmit="return validateForm()">
 			<div class="input-group mb-3 row">
 				<label class="input-group-text col-md-2" id="">성명</label>
 				<input type="text" class="form-control col-md-10" id="name" name="name" value="">

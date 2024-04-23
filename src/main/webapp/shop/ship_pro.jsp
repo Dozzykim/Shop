@@ -1,3 +1,4 @@
+<%@page import="javax.websocket.SendResult"%>
 <%@page import="shop.dto.Order"%>
 <%@page import="shop.dao.OrderRepository"%>
 <%@page import="shop.dao.ProductRepository"%>
@@ -45,6 +46,7 @@
 		userType = "비회원";
 	}
 	
+	// 토탈 주문금액
 	int totalPrice = 0;
 
 	for(Product product : cartList) {
@@ -53,14 +55,10 @@
 	
 	order.setTotalPrice(totalPrice);
 	
-	// order.jsp 에서 표시해야해서 order로 요청하기
-	request.setAttribute("myOrder", order);
+	// 배송정보 (Order객체 세션에 저장)
+	session.setAttribute("order", order);
 	
-	RequestDispatcher dispatcher = request.getRequestDispatcher("order.jsp");
-	dispatcher.forward(request, response);
-	
-	
-	
-	
+	String root = request.getContextPath();
+	response.sendRedirect( root + "/shop/order.jsp" );
 	
 %>

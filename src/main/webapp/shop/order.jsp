@@ -14,21 +14,14 @@
 	<title>주문정보</title>
 	<jsp:include page="/layout/meta.jsp" />
 	<jsp:include page="/layout/link.jsp" />
-	
-	
 </head>
 <body>
 	<%
 		String root = request.getContextPath();
 	
-		// 세션에 저장한 장바구니
+		// 세션에 저장한 장바구니, 배송정보
 		List<Product> cartList = (List<Product>)session.getAttribute("cartList");
-	
-	
-	
-		// 파라미터로 전달받은 배송정보
-		
-		Order order = (Order)request.getAttribute("order");
+		Order order = (Order)session.getAttribute("order");
 		
 		boolean isLoggin = session.getAttribute("loginId") != null ? true : false;
 		
@@ -123,7 +116,7 @@
 							<td></td>
 							<td></td>
 							<td>총액</td>
-							<td><%=totalPrice%></td>
+							<td><%=order.getTotalPrice()%></td>
 							<td></td>
 						</tr>
 						
@@ -141,17 +134,16 @@
 				</div>
 				<div class="item">
 					<input type="hidden" name="login" value="<%=isLoggin%>">
-					<input type="hidden" name="totalPrice" value="<%=totalPrice%>">
+					<input type="hidden" name="totalPrice" value="<%=order.getTotalPrice()%>">
 					<input type="submit" class="btn btn-lg btn-primary" value="주문완료">	
 				</div>
 			</div>
 		</form>
 	</div>
 	
-	
-	
 	<!-- 푸터, 스크립트 -->
 	<jsp:include page="/layout/footer.jsp" />
 	<jsp:include page="/layout/script.jsp" />
+	
 </body>
 </html>
