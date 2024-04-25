@@ -30,11 +30,18 @@ public class OrderRepository extends JDBConnection {
 			psmt.setInt(7, order.getTotalPrice());
 			psmt.setString(8, order.getOrderPw());
 			psmt.setString(9, order.getPhone());
+			
+			int result = psmt.executeUpdate();
+			
+			System.out.println("오더 완료");
+			return result;
 		
 		} catch (SQLException e) {
 			System.err.println("주문 및 배송정보 저장 시 예외 발생");
 			e.printStackTrace();
 		}
+		
+		return 0;
 	}
 
 	/**

@@ -36,16 +36,13 @@
 		orderDAO.insert(order);
 		
 	
-		
-		
-	
 	%>
 
 
 	<!-- 헤더 -->
 	<jsp:include page="/layout/header.jsp" />
 	
-	
+	<h1>비회원 주문 비밀번호: <%=order.getOrderPw() %></h1>
 	
 	
 	
