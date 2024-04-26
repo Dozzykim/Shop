@@ -91,7 +91,7 @@ CREATE TABLE `order` (
   `order_pw` varchar(200) NULL COMMENT '주문 비밀번호',
   `user_id` varchar(10) DEFAULT NULL COMMENT '회원아이디',
   `total_price` int DEFAULT '0' COMMENT '총가격',
-  `phone` varchar(20) DEFAULT NULL COMMENT '비회원 전화번호',
+  `phone` varchar(20) DEFAULT NULL COMMENT '비회원 전화boardboardorder번호',
   PRIMARY KEY (`order_no`)
 ) COMMENT='주문';
 
