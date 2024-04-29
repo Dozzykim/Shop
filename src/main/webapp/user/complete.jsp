@@ -34,8 +34,10 @@
 		</c:if>
 		<c:if test="${ param.msg==1 }">
 			<!-- 회원가입 성공 -->
-			<h1>회원 가입이 완료되었습니다.</h1>
-			<button onclick="moveToMain()">메인화면</button>
+			<h1 class="text-center">회원 가입이 완료되었습니다.</h1>
+			<div class="btn-box d-flex justify-content-center p-5">
+				<button onclick="moveToMain()" class="btn btn-lg btn-primary">메인화면</button>
+			</div>
 		</c:if>
 		<c:if test="${ param.msg==2 }">
 			<!-- 회원정보 수정 성공 -->

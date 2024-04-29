@@ -17,6 +17,7 @@
 </head>
 <body>
 	<%
+		
 		String root = request.getContextPath();
 	
 		// 세션에 저장한 장바구니, 배송정보

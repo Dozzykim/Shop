@@ -47,6 +47,7 @@
 		newItem.setName(product.getName());
 		newItem.setUnitPrice(product.getUnitPrice());
 		newItem.setQuantity(1);
+		newItem.setType("OUT");
 	
 		cartList.add(newItem);
 	}
