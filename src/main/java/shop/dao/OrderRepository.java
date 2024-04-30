@@ -70,7 +70,7 @@ public class OrderRepository extends JDBConnection {
 			e.printStackTrace();
 		}
 
-		return maxNo + 1;
+		return maxNo;
 	}
 
 	/**

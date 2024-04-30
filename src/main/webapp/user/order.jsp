@@ -1,3 +1,4 @@
+<%@page import="shop.dto.Order"%>
 <%@page import="shop.dao.OrderRepository"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="shop.dto.Product"%>
@@ -19,7 +20,8 @@
 	
 		String orderPhone = "";
 		int orderCount = 0;
-		List<e> orderList = new ArrayList();
+		OrderRepository orderDAO = new OrderRepository();
+		// List<Order> orderList = orderDAO.li;
 	
 		// 이미 로그인한 경우
 		String loginId = (String) session.getAttribute("loginId");
@@ -47,6 +49,7 @@
 	
 	<jsp:include page="/layout/header.jsp" />
 	
+	<!-- 사이드 메뉴 -->
 	<div class="row m-0 mypage">
 		<div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
 			<div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
@@ -75,6 +78,7 @@
 			  </div>
 		</div>
 		
+		<!-- 중앙화면 -->
 		<div class="col-md-9 ms-sm-auto col-lg-10 p-0 m-0">
 			<div class="px-4 py-3 my-3 text-center">
 				<h1 class="display-5 fw-bold text-body-emphasis">주문 내역</h1>

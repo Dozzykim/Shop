@@ -1,3 +1,4 @@
+<%@page import="shop.dao.ProductRepository"%>
 <%@page import="shop.dao.ProductIORepository"%>
 <%@page import="shop.dto.Product"%>
 <%@page import="java.util.List"%>
@@ -43,14 +44,17 @@
 		int maxNo = orderDAO.lastOrderNo();
 		
 		// product_io 출고 등록 & product 남은 재고수 변경
-		ProductIORepository productIO = new ProductIORepository();
+		ProductIORepository productIoDAO = new ProductIORepository();
+		ProductRepository productDAO = new ProductRepository();
 		
 		for(Product item : cartList) {
 			item.setOrderNo(maxNo);
-			productIO.insert(item);
+			productIoDAO.insert(item);
+			productDAO.updateQty(item);
 		}
 		
-	
+		//세션에 저장된 장바구니 무효화 시키고 다시 초기화.
+		session.removeAttribute("cartList"); 
 	%>
 
 

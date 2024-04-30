@@ -6,7 +6,19 @@
 <%
 	
 	// 비회원 주문 내역 세션에 등록 처리
-		
+	String phone = (String)request.getParameter("phone");
+	String orderPw = "";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	String root = request.getContextPath();
 	response.sendRedirect(root + "/user/order.jsp");
 
 %>

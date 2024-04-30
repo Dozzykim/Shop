@@ -120,6 +120,45 @@ public class ProductRepository extends JDBConnection {
 		
 	}
 	
+	/**
+	 * 상품 재고 수정
+	 * @param product
+	 * @return
+	 */
+	public int updateQty(Product product) {
+		
+		int result = 0;
+		int updQty;
+		
+		if (product.getType().equals("OUT")) {
+			// 출고면, 수량 마이너스로 변경
+			updQty = product.getQuantity() * -1;
+			System.out.println("수량변경: " + product.getProductId() + ", " + updQty);
+		} else {
+			// 입고면, 수량 플러스로 변경
+			updQty = product.getQuantity();
+		}
+		
+		String sql = " UPDATE product "
+				   + " SET units_in_stock = units_in_stock + " + updQty
+				   + " WHERE product_id = ? ";
+		
+		try {
+			
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, product.getProductId());
+			
+			result = psmt.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.err.println("상품 재고 업데이트 시 예외 발생");
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	
 	
 	/**
@@ -131,28 +170,7 @@ public class ProductRepository extends JDBConnection {
 		
 	}
 	
-	public int updateQty (String productId, int qty) {
-		int result = 0;
-		
-		String sql = " UPDATE FROM product "
-				   + " SET quantity = ? "
-				   + " WHERE product_id = ? " ;
-		
-		try {
-			psmt = con.prepareStatement(sql);
-			
-			psmt.setInt(1, qty);
-			psmt.setString(2, productId);
-			
-			result = psmt.executeUpdate(); // 성공 1, 실패 0
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.err.println("장바구니 수량 정정 시, 예외 발생");
-		}
-		
-		return result;
-	}
+
 	
 	public Product getProductById1(String productId) {
 	      Product product = new Product();
