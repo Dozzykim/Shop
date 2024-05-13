@@ -80,7 +80,27 @@ public class OrderRepository extends JDBConnection {
 	 * @return
 	 */
 	public List<Product> list(String userId) {
-
+		String sql = " SELECT * "
+				   + " FROM `order` "
+				   + " WHERE user_id = ? ";
+		// 여기 sql 문 조인으로 변경해야함
+		
+		try {
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1, userId);
+			rs = psmt.executeQuery();
+			
+			if (rs.next()) {
+				Product product = new Product();
+				product.setOrderNo(rs.getInt("order_no"));
+				product.setProductId(rs.getString("product));
+			}
+			
+		} catch (SQLException e) {
+			System.err.println("주문 내역 조회 시, 예외 발생");
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**

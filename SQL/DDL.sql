@@ -96,7 +96,6 @@ CREATE TABLE `order` (
 ) COMMENT='주문';
 
 
-
 -- 입출고 테이블
 DROP TABLE IF EXISTS `product_io` CASCADE;
 CREATE TABLE `product_io` (
